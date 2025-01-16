@@ -19,13 +19,15 @@ const Page = async () => {
   const friends = await getFriendsByUserId(session.user.id);
   const friendsLastMessage = await Promise.all(
     friends.map(async (friend) => {
-      const [lastMessageRaw] = (await fetchRedis(
+      const lastMessageRawArray = (await fetchRedis(
         "zrange",
         `chat:${chatHrefConstructor(session.user.id, friend.id)}:messages`,
         -1, 
         -1,
       )) as string[];
-      const lastMessage = JSON.parse(lastMessageRaw) as Message;
+
+      // const lastMessage = JSON.parse(lastMessageRaw) as Message;
+      const lastMessage = lastMessageRawArray.length > 0 ? JSON.parse(lastMessageRawArray[0]) as Message : null;
       return {
         ...friend,
         lastMessage,
@@ -38,7 +40,7 @@ const Page = async () => {
       <h1 className="font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8">
         Recent Chats
       </h1>
-      {friendsLastMessage.length === 0 ? (
+      {friendsLastMessage && friendsLastMessage.length === 0 ? (
         <p>Nothing to show</p>
       ) : (
         friendsLastMessage.map((friend) => (
@@ -71,9 +73,9 @@ const Page = async () => {
                 <h4 className="text-lg font-semibold">{friend.name}</h4>
                 <p className="mt-1 max-w-md">
                   <span className="text-zinc-400">
-                    {friend.lastMessage.senderId === session.user.id ? 'You: ' : ''}
+                    {friend.lastMessage && friend.lastMessage.senderId === session.user.id ? 'You: ' : ''}
                   </span>
-                  {friend.lastMessage.text}
+                  {friend.lastMessage ? friend.lastMessage.text : "No Messages Yet"}
                 </p>
               </div>
             </Link>

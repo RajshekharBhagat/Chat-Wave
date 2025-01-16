@@ -104,9 +104,9 @@ const Layout = async ({ children }: LayoutProps) => {
                   initialUnseenRequestCount={unseenRequestCount}
                 />
               </li>
-              <li>
+              {/* <li>
                 <CreateRoomButton sessionId={session.user.id} />
-              </li>
+              </li> */}
               <li className="mt-auto flex flex-col">
                 <div className="flex border-t-2 border-orange-200 py-2 items-center">
                   <div className="relative shrink-0 w-8 h-8">
