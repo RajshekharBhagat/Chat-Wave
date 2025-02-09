@@ -136,7 +136,7 @@ const Layout = async ({ children }: LayoutProps) => {
             </ul>
           </nav>
         </div>
-        <aside className="relative max-h-screen container w-full">
+        <aside className="relative max-h-screen max-w-screen-2xl w-full">
           <MobileLayout
             session={session}
             friends={friends}

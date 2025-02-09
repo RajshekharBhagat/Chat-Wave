@@ -57,7 +57,7 @@ const ChatInput = ({ chatPartner, chatId }: ChatInputProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex items-center justify-between gap-1.5 border"
+        className="flex items-center justify-between gap-1.5"
       >
         <FormField
           name="text"
